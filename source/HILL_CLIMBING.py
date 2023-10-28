@@ -48,20 +48,18 @@ def setupCostCities(cities, start, end, matrix):
         distance_saved[city][end]['cost'] = cost
 
 
-    for i in range(len(cities) - 1):
-        for j in range(i + 1, len(cities)):
+    for i in range(len(cities)):
+        for j in range(len(cities)):
+            if i == j:
+                 continue
             first = cities[i]
             second = cities[j]
             route, explored, cost = BFS_Tele(matrix, first, second, [])
 
             distance_saved[first][second] = {}
-            distance_saved[second][first] = {}
             distance_saved[first][second]['route'] = route
             distance_saved[first][second]['explored'] = explored
             distance_saved[first][second]['cost'] = cost
-            distance_saved[second][first]['route'] = route
-            distance_saved[second][first]['explored'] = explored
-            distance_saved[second][first]['cost'] = cost
     
     return distance_saved
 

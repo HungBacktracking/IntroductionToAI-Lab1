@@ -4,7 +4,8 @@ from BFS import *
 from DFS import *
 from UCS import *
 from GBFS import *
-from A_SAO import *
+from A_Star import *
+from BFS_Tele import *
 
 # PATH = './input/level_2/input3.txt'
 
@@ -22,8 +23,16 @@ def main(argv):
         elif opt == '--output':
             out_file += arg
 
-    bonus_points, matrix = read_file(in_file)
+    bonus_points, matrix, isTeleport = read_file(in_file)
     start, end = getStartEndPoint(matrix)
+
+    if isTeleport == True:
+        out_put = './output/' + out_file + '/BFS.jpg'
+        name = 'BFS'
+        route,explored,cost = BFS_Tele(matrix,start,end,bonus_points)
+        write_cost_path(cost, './output/' + out_file + '/BFS.txt')
+        visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored,True)
+        sys.exit(0)
     
     out_put = './output/' + out_file + '/bfs/BFS.jpg'
     name = 'BFS'

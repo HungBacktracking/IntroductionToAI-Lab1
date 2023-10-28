@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-def visualize_maze(matrix, bonus, start, end, out_put, name, route=None, explored=None):
+def visualize_maze(matrix, bonus, start, end, out_put, name, route=None, explored=None, isTeleport=False):
     """
     Args:
       1. matrix: The matrix read from the input file,
@@ -36,6 +36,10 @@ def visualize_maze(matrix, bonus, start, end, out_put, name, route=None, explore
     
     plt.scatter([i[1] for i in bonus],[-i[0] for i in bonus],
                 marker='P',s=100,color='green')
+    
+    if isTeleport:
+        plt.scatter([i[3] for i in bonus],[-i[2] for i in bonus],
+                marker='D',s=100,color='green')
 
     plt.scatter(start[1],-start[0],marker='*',
                 s=100,color='gold')
@@ -66,7 +70,26 @@ def visualize_maze(matrix, bonus, start, end, out_put, name, route=None, explore
     for _, point in enumerate(bonus):
         print(f'Bonus point at position (x, y) = {point[0], point[1]} with point {point[2]}')
 
-def read_file(file_name:str):
+def teleport_read_file(file_name: str):
+    teleports, matrix = [], []
+    with open(file_name) as f:
+        f=open(file_name,'r')
+        n_teleports = int(next(f)[:-1])
+        teleports = []
+        for i in range(n_teleports):
+            x, y, newX, newY = map(int, next(f)[:-1].split(' '))
+            teleports.append((x, y, newX, newY))
+
+        text=f.read()
+        matrix=[list(i) for i in text.splitlines()]
+        f.close()
+
+    return teleports, matrix, True
+
+def read_file(file_name: str):
+    if "teleport" in file_name:
+        return teleport_read_file(file_name)
+
     bonus_points, matrix = [], []
     with open(file_name) as f:
         f=open(file_name,'r')
@@ -80,7 +103,7 @@ def read_file(file_name:str):
         matrix=[list(i) for i in text.splitlines()]
         f.close()
 
-    return bonus_points, matrix
+    return bonus_points, matrix, False
 
 def getStartEndPoint(matrix):
     for i in range(len(matrix)):

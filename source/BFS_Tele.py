@@ -38,7 +38,7 @@ def BFS_Tele(matrix, start, end, teleports):
                 if (tele[0], tele[1]) in route:
                     cost -= 1
             
-            return route,visited,cost     
+            return route, visited, cost     
 
         for dir in dicrections:
             point = (current[0] + dir[0], current[1] + dir[1])

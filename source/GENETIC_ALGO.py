@@ -12,14 +12,18 @@ def randomSolution(tsp):
 
     return solution
 
-def costOfSolution(solution, start, end, distance):
+def costOfSolution(solution, cities, start, end, distance):
     cost = 0
-    for i in range(solution):
+    for i in range(len(solution)):
+        current_city = cities[solution[i]]
         if i == 0:
-            cost += distance[start][solution[0]]['cost']
+            cost += distance[start][current_city]['cost']
             continue
-        cost += distance[solution[i]][solution[i - 1]]['cost']
-    cost += distance[solution[len(solution) - 1]][end]['cost']
+        previous_city = cities[solution[i - 1]]
+        cost += distance[current_city][previous_city]['cost']
+    
+    last_city = cities[solution[len(solution) - 1]]
+    cost += distance[last_city][end]['cost']
 
     return cost
 
@@ -57,7 +61,7 @@ def setupCostCities(cities, start, end, matrix):
 
 
     for i in range(len(cities) - 1):
-        for j in range(len(cities)):
+        for j in range(i + 1, len(cities)):
             first = cities[i]
             second = cities[j]
             route, explored, cost = BFS_Tele(matrix, first, second, [])
@@ -73,11 +77,26 @@ def setupCostCities(cities, start, end, matrix):
     
     return distance
 
+def getNeighbours(solution):
+    neighbours = []
+    for i in range(len(solution) - 1):
+        for j in range(i + 1, len(solution)):
+            neighbour = solution.copy()
+            neighbour[i] = solution[j]
+            neighbour[j] = solution[i]
+            neighbours.append(neighbour)
+            
+    return neighbours
+
+
 def GENETIC_ALGO(matrix, start, end, bonus):
     cities = []
     for val in bonus:
         cities.append((val[0], val[1]))
-    
     distance = setupCostCities(cities, start, end, matrix)
 
-    print(distance)
+    currentSolution = randomSolution(cities)
+    neighbours = getNeighbours(currentSolution)
+
+    print(costOfSolution(solution, cities, start, end, distance))
+    print()

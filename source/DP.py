@@ -1,7 +1,7 @@
 from BFS_Tele import *
 
 INF = 10 ** 10
-mask_size = (1 << 10) + 1 
+mask_size = (1 << 10)
 
 # Tạo mảng dp với kích thước 11 * mask_size * 2 và giá trị ban đầu là 10^10
 dp = [[[INF for i in range(2)] for j in range(mask_size)] for k in range(11)]

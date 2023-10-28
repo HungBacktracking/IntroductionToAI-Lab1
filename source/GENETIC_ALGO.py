@@ -12,6 +12,17 @@ def randomSolution(tsp):
 
     return solution
 
+def costOfSolution(solution, start, end, distance):
+    cost = 0
+    for i in range(solution):
+        if i == 0:
+            cost += distance[start][solution[0]]['cost']
+            continue
+        cost += distance[solution[i]][solution[i - 1]]['cost']
+    cost += distance[solution[len(solution) - 1]][end]['cost']
+
+    return cost
+
 def setupCostCities(cities, start, end, matrix):
     distance = {}
     distance[start] = {}
@@ -68,5 +79,5 @@ def GENETIC_ALGO(matrix, start, end, bonus):
         cities.append((val[0], val[1]))
     
     distance = setupCostCities(cities, start, end, matrix)
-    
+
     print(distance)

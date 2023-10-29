@@ -12,7 +12,6 @@ def BFS_Tele(matrix, start, end, teleports):
     trace = dict()
     trace[start] = None
     dicrections = [[0, 1], [0, -1], [1, 0], [-1, 0]]
-    current = (0,0)
     teleports_map = {} 
 
     for tele in teleports:
@@ -46,12 +45,12 @@ def BFS_Tele(matrix, start, end, teleports):
             if isPointValid(matrix = matrix, point = point) and point not in visited:
                 trace[point] = current
                 visited.append(point)
-                path.put(point)
                 if point in teleports_map:
                     tele_point = teleports_map[point]
                     trace[tele_point] = point
                     visited.append(tele_point)
                     path.put(tele_point)
                     continue
+                path.put(point)
 
-    return None, None, -1
+    return None, visited, -1

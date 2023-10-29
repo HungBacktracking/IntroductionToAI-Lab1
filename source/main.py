@@ -32,7 +32,6 @@ def main(argv):
         route,explored,cost = BFS_Tele(matrix,start,end,bonus_points)
         write_cost_path(cost, './output/' + out_file + '/bfs/BFS.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored,True)
-        sys.exit(0)
     
     if 'level_1' in in_file:
         out_put = './output/' + out_file + '/bfs/BFS.jpg'

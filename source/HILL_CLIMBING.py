@@ -13,6 +13,9 @@ def randomSolution(tsp):
     return solution
 
 def getCostOfSolution(solution, cities, start, end, distance_saved):
+    if (len(cities) == 0):
+         return distance_saved[start][end]['cost']
+
     cost = 0
     for i in range(len(solution)):
         current_city = cities[solution[i]]
@@ -31,6 +34,12 @@ def setupCostCities(cities, start, end, matrix):
     distance_saved = {}
     distance_saved[start] = {}
     distance_saved[end] = {}
+
+    route, explored, cost = BFS_Tele(matrix, start, end, [])
+    distance_saved[start][end] = {}
+    distance_saved[start][end]['route'] = route
+    distance_saved[start][end]['explored'] = explored
+    distance_saved[start][end]['cost'] = cost
     for city in cities:
         distance_saved[city] = {}
         route, explored, cost = BFS_Tele(matrix, start, city, [])
@@ -88,6 +97,9 @@ def getBestNeighbour(cities, start, end, distance_saved, neighbours):
 
 
 def getResult(solution, cities, distance_saved, start, end, cost):
+    if (len(cities) == 0):
+         return distance_saved[start][end]['route'], distance_saved[start][end]['explored'], distance_saved[start][end]['cost']
+
     route = []
     visited = []
     for i in range(len(solution)):

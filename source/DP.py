@@ -8,6 +8,9 @@ dp = [[[INF for i in range(2)] for j in range(mask_size)] for k in range(11)]
 path = []
 
 def getCostOfSolution(solution, bonus_points, start, end, distance_saved):
+    if (len(solution) == 0):
+         return distance_saved[start][end]['cost']
+
     cost = 0
     for i in range(len(solution)):
         tmp = bonus_points[solution[i]]
@@ -76,6 +79,9 @@ def reset():
                 dp[i][j][0], dp[i][j][1] = INF, INF
 
 def getResult(solution, bonus_points, distance_saved, start, end, cost):
+    if (len(solution) == 0):
+         return distance_saved[start][end]['route'], distance_saved[start][end]['explored'], distance_saved[start][end]['cost']
+
     route = []
     visited = []
     for i in range(len(solution)):
@@ -114,9 +120,12 @@ def trace(idx, bitmask, isFinish, start, end, distance_saved, bonus_points):
         return
     
     for i in range(len(bonus_points)):
+        point = bonus_points[i]
         if (bitmask & (1 << i)) != 0: # Đã đi qua điểm thưởng thứ i trước đó rồi
             continue
-        point = bonus_points[i]
+        if distance_saved[pre_pos][(point[0], point[1])]['cost'] == -1: # Không có đường đi giữa 2 điểm thưởng
+             continue
+        
         if dp[idx][bitmask][isFinish] == dp[i][(bitmask | (1 << i))][isFinish] + distance_saved[pre_pos][(point[0], point[1])]['cost'] + point[2]:
             path.append(i)
             trace(i, (bitmask | (1 << i)), isFinish, start, end, distance_saved, bonus_points)
@@ -142,9 +151,11 @@ def findMinCost(idx, bitmask, isFinish, start, end, distance_saved, bonus_points
     cost = min(cost, findMinCost(idx, bitmask, True, start, end, distance_saved, bonus_points) + distance_saved[pre_pos][end]['cost']) # Quyết định đi thẳng đến EXIT
     
     for i in range(len(bonus_points)):
+        point = bonus_points[i]
         if (bitmask & (1 << i)) != 0: # Đã đi qua điểm thưởng thứ i trước đó rồi
             continue
-        point = bonus_points[i]
+        if distance_saved[pre_pos][(point[0], point[1])]['cost'] == -1: # Không có đường đi giữa 2 điểm thưởng
+             continue
         cost = min(cost, findMinCost(i, (bitmask | (1 << i)), isFinish, start, end, distance_saved, bonus_points) + distance_saved[pre_pos][(point[0], point[1])]['cost'] + point[2]) # Chọn đi tới điểm thưởng thứ i
     
     dp[idx][bitmask][isFinish] = cost

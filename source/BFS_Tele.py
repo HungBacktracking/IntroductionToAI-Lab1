@@ -21,11 +21,9 @@ def BFS_Tele(matrix, start, end, teleports):
 
     while not path.empty():
         current = path.get()
-
         if(current == end):
             route = []
             check = end
-
             while check != start:
                 route.append(check)
                 check = trace[check]
@@ -36,7 +34,6 @@ def BFS_Tele(matrix, start, end, teleports):
             for tele in teleports:
                 if (tele[0], tele[1]) in route:
                     cost -= 1
-            
             return route, visited, cost     
 
         for dir in dicrections:

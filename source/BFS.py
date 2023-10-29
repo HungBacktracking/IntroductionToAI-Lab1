@@ -1,49 +1,6 @@
 from collections import deque
-# from queue import PriorityQueue
 
 from implement import *
-
-class Node():
-    def __init__(self, state, parent, cost):
-        self.state = state
-        self.parent = parent
-        self.cost = cost
-
-class StackFrontier():
-    def __init__(self):
-        self.frontier = []
-
-    def add(self, node):
-        self.frontier.append(node)
-
-    def contains_state(self, state):
-        return any(node.state == state for node in self.frontier)
-        # for node in self.frontier:
-        #  if node.state == state:
-        #    return true
-        # return false
-
-    def empty(self):
-        return len(self.frontier) == 0
-
-    def remove(self):
-        if self.empty():
-            raise Exception("empty frontier")
-        else:
-            node = self.frontier[-1]
-            self.frontier = self.frontier[:-1]
-            return node
-
-
-class QueueFrontier(StackFrontier):
-
-    def remove(self):
-        if self.empty():
-            raise Exception("empty frontier")
-        else:
-            node = self.frontier[0]
-            self.frontier = self.frontier[1:]
-            return node
     
 def getNeighbors(current, matrix):
     dicrections = [[ current[0] -1, current[1]],
@@ -57,46 +14,51 @@ def getNeighbors(current, matrix):
     return neighbors
 
 def BFS(matrix, start, end, bonus_points):
-    frontier = QueueFrontier()
-    startNode = Node(state=start, cost=0, parent=None)
-    frontier.add(startNode)
+    frontier = deque()
+    frontier.append(start)
+    trace = dict()
+    trace[start] = None
     visited = []
 
     while True:
-        if frontier.empty():
+
+        # check frontier is empty
+        if not frontier:
             raise Exception("No solution found")
         
-        current = frontier.remove()
+        # first in, first out
+        current = frontier.popleft()
         # print(current.state)
 
-        if(current.state == end):
+        if(current == end):
             route = []
-            cost = current.cost
             while current != None:
-                route.append(current.state)
-                current = current.parent
+                route.append(current)
+                current = trace[current]
 
             route.reverse()
+            cost = len(route) - 1
 
             for bp in bonus_points:
                 if (bp[0],bp[1]) in route:
                     cost = cost + bp[2]
             return route,visited,cost     
         
-        visited.append(current.state)
+        visited.append(current)
 
-        for neighBor in getNeighbors(current.state, matrix):
-            if not frontier.contains_state(neighBor) and neighBor not in visited:
-                currentNode = Node(state=neighBor, parent=current, cost=current.cost+1)
-                frontier.add(currentNode)
+        for neighBor in getNeighbors(current, matrix):
+            if neighBor not in frontier and neighBor not in visited:
+                # currentNode = Node(state=neighBor, parent=current, cost=current.cost+1)
+                frontier.append(neighBor)
+                trace[neighBor] = current
 
     return None, None, -1
 
 
 if __name__ == '__main__':
     def main(argv):
-        in_file = './input/level_1/input5.txt'
-        out_file = './output/level_1/input5'
+        in_file = '../input/level_1/input5.txt'
+        out_file = '../output/level_1/input5'
 
 
         bonus_points, matrix = read_file(in_file)

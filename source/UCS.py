@@ -1,47 +1,6 @@
-from collections import deque
-# from queue import PriorityQueue
+from queue import PriorityQueue
 
 from implement import *
-
-class Node():
-    def __init__(self, state, parent, cost):
-        self.state = state
-        self.parent = parent
-        self.cost = cost
-
-class UCSQueueFrontier():
-    def __init__(self):
-        self.frontier = []
-
-
-    def index_state(self, state):
-        for i in range(len(self.frontier)):
-            if state == self.frontier[i].state:
-                return i
-        return -1
-
-    def add(self, node):
-        index = self.index_state(node.state)
-        if index != -1:
-            if self.frontier[index].cost > node.cost:
-                del self.frontier[index]
-                self.frontier.append(node)
-                self.frontier.sort(key=lambda x:x.cost, reverse=True)
-        else:
-            self.frontier.append(node)
-            self.frontier.sort(key=lambda x:x.cost, reverse=True)
-
-
-    def empty(self):
-        return len(self.frontier) == 0
-
-    def remove(self):
-        if self.empty():
-            raise Exception("empty frontier")
-        else:
-            node = self.frontier[-1]
-            self.frontier = self.frontier[:-1]
-            return node
 
     
 def getNeighbors(current, matrix):
@@ -55,25 +14,32 @@ def getNeighbors(current, matrix):
             neighbors.append((r,c))
     return neighbors
 
+
 def UCS(matrix, start, end, bonus_points):
-    frontier = UCSQueueFrontier()
-    startNode = Node(state=start, cost=0, parent=None)
-    frontier.add(startNode)
+    frontier =  PriorityQueue()
+    # startNode = Node(state=start, cost=0, parent=None)
+    frontier.put((0, start))
+    trace = dict()
+    trace[start] = None
     visited = []
 
     while True:
         if frontier.empty():
             raise Exception("No solution found")
         
-        current = frontier.remove()
+        # get the lowest cost in queue()
+        current = frontier.get()
         # print(current.state)
+        if current[1] in visited:
+            continue
 
-        if(current.state == end):
+        if(current[1] == end):
             route = []
-            cost = current.cost
+            cost = current[0]
+            current = current[1]
             while current != None:
-                route.append(current.state)
-                current = current.parent
+                route.append(current)
+                current = trace[current]
 
             route.reverse()
 
@@ -82,13 +48,14 @@ def UCS(matrix, start, end, bonus_points):
                     cost = cost + bp[2]
             return route,visited,cost     
         
-        visited.append(current.state)
+        visited.append(current[1])
 
-        for neighBor in getNeighbors(current.state, matrix):
+        for neighBor in getNeighbors(current[1], matrix):
             if neighBor not in visited:
                 # print(neighBor)
-                currentNode = Node(state=neighBor, parent=current, cost=current.cost+1)
-                frontier.add(currentNode)
+                next = (current[0] + 1, neighBor)
+                frontier.put(next)
+                trace[neighBor] = current[1]
 
     return None, None, -1
 

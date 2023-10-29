@@ -39,7 +39,7 @@ def visualize_maze(matrix, bonus, start, end, out_put, name, route=None, explore
     
     if isTeleport:
         plt.scatter([i[3] for i in bonus],[-i[2] for i in bonus],
-                marker='D',s=100,color='green')
+                marker='P',s=100,color='purple')
 
     plt.scatter(start[1],-start[0],marker='*',
                 s=100,color='gold')
@@ -91,7 +91,7 @@ def teleport_read_file(file_name: str):
     return teleports, matrix, True
 
 def read_file(file_name: str):
-    if "teleport" in file_name:
+    if "advance" in file_name:
         return teleport_read_file(file_name)
 
     bonus_points, matrix = [], []

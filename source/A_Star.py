@@ -1,5 +1,5 @@
 from collections import deque
-# from queue import PriorityQueue
+from queue import PriorityQueue
 import math
 
 from implement import *
@@ -14,41 +14,20 @@ class Node():
         self.state = state
         self.parent = parent
         self.g = g
+        self.h = h
         self.f = g * (1-control_factor) + h * control_factor
+    
+    def __lt__(self, other):
+        return self.f < other.f
 
-class AStarQueueFrontier():
-    def __init__(self):
-        self.frontier = []
+    def __gt__(self, other):
+        return self.f > other.f
 
+    def __le__(self, other):
+        return self.f <= other.f
 
-    def index_state(self, state):
-        for i in range(len(self.frontier)):
-            if state == self.frontier[i].state:
-                return i
-        return -1
-
-    def add(self, node):
-        index = self.index_state(node.state)
-        if index != -1:
-            if self.frontier[index].f > node.f:
-                del self.frontier[index]
-                self.frontier.append(node)
-                self.frontier.sort(key=lambda x:x.f, reverse=True)
-        else:
-            self.frontier.append(node)
-            self.frontier.sort(key=lambda x:x.f, reverse=True)
-
-
-    def empty(self):
-        return len(self.frontier) == 0
-
-    def remove(self):
-        if self.empty():
-            raise Exception("empty frontier")
-        else:
-            node = self.frontier[-1]
-            self.frontier = self.frontier[:-1]
-            return node
+    def __ge__(self, other):
+        return self.f >= other.f
 
     
 def getNeighbors(current, matrix):
@@ -63,17 +42,22 @@ def getNeighbors(current, matrix):
     return neighbors
 
 def AStar(matrix, start, end, bonus_points):
-    frontier = AStarQueueFrontier()
-    startNode = Node(state=start, g=0, parent=None, h=0)
-    frontier.add(startNode)
+    frontier = PriorityQueue()
+    startNode = Node(state=start, parent=None,  g=0, h=0)
+
+    frontier.put(startNode)
     visited = []
 
     while True:
         if frontier.empty():
             raise Exception("No solution found")
         
-        current = frontier.remove()
+        # get lowest f node
+        current = frontier.get()
         # print(current.state)
+
+        if current.state in visited:
+            continue
 
         if(current.state == end):
             route = []
@@ -95,7 +79,7 @@ def AStar(matrix, start, end, bonus_points):
             if neighBor not in visited:
                 # print(neighBor)
                 nextNode = Node(state=neighBor, parent=current, g=current.g+1, h=h_func1(neighBor, end))
-                frontier.add(nextNode)
+                frontier.put(nextNode)
 
     return None, None, -1
 

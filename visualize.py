@@ -91,7 +91,6 @@ def main():
     clock = pygame.time.Clock()
     run = True
 
-    draw_maze(maze_matrix, WIN)
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():

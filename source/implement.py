@@ -54,6 +54,10 @@ def visualize_maze(matrix, bonus, start, end, out_put, name, route=None, explore
             if not explored[i] in route:
                 plt.scatter(explored[i][1], -explored[i][0], marker = ".", s=20, color = 'lightgray') # 50
 
+    if route[-1] != end:
+        plt.scatter(route[-1][1],-route[-1][0],
+            marker="x",color='red')
+
     plt.text(end[1],-end[0],'EXIT',color='red',
         horizontalalignment='center',
         verticalalignment='center')

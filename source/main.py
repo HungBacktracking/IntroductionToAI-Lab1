@@ -59,17 +59,17 @@ def main(argv):
     # write_cost_path(cost, './output/' + out_file + '/gbfs/GBFS.txt')
     # visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
 
-    # out_put = './output/' + out_file + '/astar/astar.jpg'
-    # name = 'AStar'
-    # route,explored,cost = AStar(matrix,start,end,bonus_points)
-    # write_cost_path(cost, './output/' + out_file + '/astar/astar.txt')
-    # visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
-
-    out_put = './output/' + out_file + '/hill_climbing/hill_climbing.jpg'
-    name = 'Hill Climbing'
-    route,explored,cost = HILL_CLIMBING(matrix,start,end,bonus_points)
-    write_cost_path(cost, './output/' + out_file + '/hill_climbing/hill_climbing.txt')
+    out_put = './output/' + out_file + '/astar/astar.jpg'
+    name = 'AStar'
+    route,explored,cost = AStar(matrix,start,end,bonus_points)
+    write_cost_path(cost, './output/' + out_file + '/astar/astar.txt')
     visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
+
+    # out_put = './output/' + out_file + '/hill_climbing/hill_climbing.jpg'
+    # name = 'Hill Climbing'
+    # route,explored,cost = HILL_CLIMBING(matrix,start,end,bonus_points)
+    # write_cost_path(cost, './output/' + out_file + '/hill_climbing/hill_climbing.txt')
+    # visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

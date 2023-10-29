@@ -7,6 +7,7 @@ from GBFS import *
 from A_Star import *
 from BFS_Tele import *
 from HILL_CLIMBING import *
+from A_Star_lv2 import *
 from DP import *
 
 def main(argv):
@@ -66,12 +67,18 @@ def main(argv):
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
 
     if 'level_2' in in_file:
-        out_put = './output/' + out_file + '/dp/dp.jpg'
-        name = 'DP'
-        route,explored,cost = DP(matrix,start,end,bonus_points)
-        write_cost_path(cost, './output/' + out_file + '/dp/dp.txt')
-        visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
+        # out_put = './output/' + out_file + '/dp/dp.jpg'
+        # name = 'DP'
+        # route,explored,cost = DP(matrix,start,end,bonus_points)
+        # write_cost_path(cost, './output/' + out_file + '/dp/dp.txt')
+        # visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
 
+
+        out_put = './output/' + out_file + '/astar_lv2/astar_lv2.jpg'
+        name = 'AStar_LV2'
+        route,explored,cost = AStar_Lv2(matrix,start,end,bonus_points)
+        write_cost_path(cost, './output/' + out_file + '/astar_lv2/astar_lv2.txt')
+        visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
     if 'level_3' in in_file:
         out_put = './output/' + out_file + '/hill_climbing/hill_climbing.jpg'
         name = 'Hill Climbing'

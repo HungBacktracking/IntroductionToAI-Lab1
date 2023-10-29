@@ -12,6 +12,6 @@ python ./source/main.py --input=level_3/input1.txt --output=level_3/input1
 python ./source/main.py --input=level_3/input2.txt --output=level_3/input2
 python ./source/main.py --input=level_3/input3.txt --output=level_3/input3
 
-python ./source/main.py --input=teleport/input1.txt --output=teleport/input1
-python ./source/main.py --input=teleport/input2.txt --output=teleport/input2
-python ./source/main.py --input=teleport/input3.txt --output=teleport/input3
+python ./source/main.py --input=advance/input1.txt --output=advance/input1
+python ./source/main.py --input=advance/input2.txt --output=advance/input2
+python ./source/main.py --input=advance/input3.txt --output=advance/input3

@@ -1,9 +1,9 @@
 5
-11 7 -9
-13 33 -10
-15 12 -12
-6 32 -15
-13 36 -8
+11 7 0
+13 33 0
+15 12 0
+6 32 0
+13 36 0
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 xSx                                    x
 x x xxx x xxxxxxxxxx  xxx xxxxxx  xxxxxx

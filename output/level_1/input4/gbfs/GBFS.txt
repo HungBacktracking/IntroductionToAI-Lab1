@@ -1,0 +1,1 @@
+GBFS has stopped at (9, 1). No possible ways found!

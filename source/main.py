@@ -42,7 +42,7 @@ def main(argv):
 
         out_put = './output/' + out_file + '/dfs/DFS.jpg'
         name = 'DFS'
-        route,explored,cost = DFS(matrix,start,end,bonus_points)
+        route,explored,cost = DFS_main(matrix,start,end,bonus_points)
         write_cost_path(cost, './output/' + out_file + '/dfs/DFS.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
 

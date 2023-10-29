@@ -1,4 +1,4 @@
-from BFS_Tele import *
+from BFS import *
 
 INF = 10 ** 10
 mask_size = (1 << 10)
@@ -33,7 +33,7 @@ def setupCostVisitBonusPoint(bonus_points, start, end, matrix):
     distance_saved[start] = {}
     distance_saved[end] = {}
 
-    route, explored, cost = BFS_Tele(matrix, start, end, [])
+    route, explored, cost = BFS(matrix, start, end, [])
     distance_saved[start][end] = {}
     distance_saved[start][end]['route'] = route
     distance_saved[start][end]['explored'] = explored
@@ -42,14 +42,14 @@ def setupCostVisitBonusPoint(bonus_points, start, end, matrix):
     for val in bonus_points:
         point = (val[0], val[1])
         distance_saved[point] = {}
-        route, explored, cost = BFS_Tele(matrix, start, point, [])
+        route, explored, cost = BFS(matrix, start, point, [])
 
         distance_saved[start][point] = {}
         distance_saved[start][point]['route'] = route
         distance_saved[start][point]['explored'] = explored
         distance_saved[start][point]['cost'] = cost
 
-        route, explored, cost = BFS_Tele(matrix, point, end, [])
+        route, explored, cost = BFS(matrix, point, end, [])
 
         distance_saved[point][end] = {}
         distance_saved[point][end]['route'] = route
@@ -64,7 +64,7 @@ def setupCostVisitBonusPoint(bonus_points, start, end, matrix):
             second_point = bonus_points[j]
             first = (first_point[0], first_point[1])
             second = (second_point[0], second_point[1])
-            route, explored, cost = BFS_Tele(matrix, first, second, [])
+            route, explored, cost = BFS(matrix, first, second, [])
 
             distance_saved[first][second] = {}
             distance_saved[first][second]['route'] = route
@@ -164,8 +164,7 @@ def findMinCost(idx, bitmask, isFinish, start, end, distance_saved, bonus_points
 
 def DP(matrix, start, end, bonus_points):
     # Tạo mảng dp với kích thước 10 * mask_size * 2 và giá trị ban đầu là 10^10
-    global dp
-    global path
+    global dp, path
     path = []
     dp = [[[INF for i in range(2)] for j in range(mask_size)] for k in range(11)]
 

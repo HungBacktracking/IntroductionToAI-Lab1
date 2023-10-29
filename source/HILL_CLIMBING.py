@@ -1,5 +1,5 @@
 import random
-from BFS_Tele import *
+from BFS import *
 
 def randomSolution(tsp):
     cities = list(range(len(tsp)))
@@ -35,21 +35,21 @@ def setupCostCities(cities, start, end, matrix):
     distance_saved[start] = {}
     distance_saved[end] = {}
 
-    route, explored, cost = BFS_Tele(matrix, start, end, [])
+    route, explored, cost = BFS(matrix, start, end, [])
     distance_saved[start][end] = {}
     distance_saved[start][end]['route'] = route
     distance_saved[start][end]['explored'] = explored
     distance_saved[start][end]['cost'] = cost
     for city in cities:
         distance_saved[city] = {}
-        route, explored, cost = BFS_Tele(matrix, start, city, [])
+        route, explored, cost = BFS(matrix, start, city, [])
 
         distance_saved[start][city] = {}
         distance_saved[start][city]['route'] = route
         distance_saved[start][city]['explored'] = explored
         distance_saved[start][city]['cost'] = cost
 
-        route, explored, cost = BFS_Tele(matrix, city, end, [])
+        route, explored, cost = BFS(matrix, city, end, [])
 
         distance_saved[city][end] = {}
         distance_saved[city][end]['route'] = route
@@ -63,7 +63,7 @@ def setupCostCities(cities, start, end, matrix):
                  continue
             first = cities[i]
             second = cities[j]
-            route, explored, cost = BFS_Tele(matrix, first, second, [])
+            route, explored, cost = BFS(matrix, first, second, [])
 
             distance_saved[first][second] = {}
             distance_saved[first][second]['route'] = route

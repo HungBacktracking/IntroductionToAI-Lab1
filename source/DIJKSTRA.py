@@ -76,7 +76,6 @@ def Dijkstra(matrix, start, end, bonus_points):
     check_pos = end
     check_bitmask = best_bitmask
     while check_pos != start:
-        print(check_pos)
         route.append(check_pos)
         weight, id = get_weight(check_pos, bonus_points)
         check_pos = trace[check_pos[0]][check_pos[1]][check_bitmask]

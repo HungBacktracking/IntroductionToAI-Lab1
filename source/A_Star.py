@@ -81,5 +81,5 @@ def AStar(matrix, start, end, bonus_points):
                 nextNode = Node(state=neighBor, parent=current, g=current.g+1, h=h_func1(neighBor, end))
                 frontier.put(nextNode)
 
-    return None, None, -1
+    return None, visited, -1
 

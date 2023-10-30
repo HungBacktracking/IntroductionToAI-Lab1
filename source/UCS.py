@@ -57,7 +57,7 @@ def UCS(matrix, start, end, bonus_points):
                 frontier.put(next)
                 trace[neighBor] = current[1]
 
-    return None, None, -1
+    return None, visited, -1
 
 
 if __name__ == '__main__':

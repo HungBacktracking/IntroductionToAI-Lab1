@@ -57,5 +57,5 @@ def GBFS(matrix, start, end, bonus_points):
         current = Node(state=frontier.get()[1], parent=current, cost=current.cost+1)
         # print(current.state)
     
-    return None, None, -1
+    return None, visited, -1
         

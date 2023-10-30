@@ -14,6 +14,7 @@ from GENETIC import *
 from A_Star_lv2 import *
 from DP import *
 from DIJKSTRA import *
+from implement import *
 
 matrix = []
 BONUS=[]
@@ -44,7 +45,7 @@ def draw_cell_no_delay(x, y, IMG, WIN):
     WIN.blit(IMG, (drawX, drawY))
 
 def matrix_initialize(matrix):
-    cnt =0;
+    cnt =0
     plus=[]
     bns=[]
     for row in range(len(matrix)):
@@ -63,9 +64,9 @@ def matrix_initialize(matrix):
             if matrix[row][col] == '+':
                 bns.append((row,col))
                 
-            if matrix[row][col] == 'b':
-                plus.append((row,col))
-                pygame.draw.rect(screen, GOODBLUE, (col * TILE, row * TILE, TILE, TILE))
+            # if matrix[row][col] == 'b':
+            #     plus.append((row,col))
+            #     pygame.draw.rect(screen, GOODBLUE, (col * TILE, row * TILE, TILE, TILE))
     for cell in bns:
         draw_cell_no_delay(cell[0], cell[1], OPEN_IMG, screen)      
     for cell in plus:
@@ -77,7 +78,7 @@ def draw_map():
 
 def path_finding(dir,alg):
     global matrix ,BONUS,explored,route,start,end,ALGNAME,screen,TILE
-    BONUS,matrix=IO.read_file(dir)
+    BONUS,matrix, is_teleport= read_file(dir)
     if len(matrix) >= 20 or len(matrix[0]) >= 20:
         TILE = 30
     else: 
@@ -85,8 +86,10 @@ def path_finding(dir,alg):
     WIDTH = TILE*len(matrix[0])  # screen width
     HEIGHT = TILE*len(matrix)  # screen height
     SCREEN_SIZE = [WIDTH, HEIGHT]
-    B= list(BONUS.keys())
+    # B= list(BONUS.keys())
+    B = [(point[0], point[1]) for point in BONUS]
     start, end = imp.getStartEndPoint(matrix)
+
     out = alg(matrix,start,end,BONUS)
     explored=out[1]
     route=out[0]

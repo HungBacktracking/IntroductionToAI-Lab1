@@ -7,6 +7,7 @@ from GBFS import *
 from A_Star import *
 from BFS_Tele import *
 from HILL_CLIMBING import *
+from GENETIC import *
 from A_Star_lv2 import *
 from DP import *
 
@@ -84,7 +85,13 @@ def main(argv):
         route,explored,cost = HILL_CLIMBING(matrix,start,end,bonus_points)
         write_cost_path(cost, './output/' + out_file + '/hill_climbing/hill_climbing.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
-        
+
+        out_put = './output/' + out_file + '/genetic/genetic.jpg'
+        name = 'Genetic Algorithm'
+        route,explored,cost = GENETIC(matrix,start,end,bonus_points)
+        write_cost_path(cost, './output/' + out_file + '/genetic/genetic.txt')
+        visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
+
 
 if __name__ == '__main__':
     main(sys.argv[1:])

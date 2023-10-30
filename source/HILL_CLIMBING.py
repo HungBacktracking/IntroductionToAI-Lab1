@@ -14,7 +14,7 @@ def randomSolution(tsp):
 
 def getCostOfSolution(solution, cities, start, end, distance_saved):
     if (len(cities) == 0):
-         return distance_saved[start][end]['cost']
+        return distance_saved[start][end]['cost']
 
     cost = 0
     for i in range(len(solution)):
@@ -98,7 +98,7 @@ def getBestNeighbour(cities, start, end, distance_saved, neighbours):
 
 def getResult(solution, cities, distance_saved, start, end, cost):
     if (len(cities) == 0):
-         return distance_saved[start][end]['route'], distance_saved[start][end]['explored'], distance_saved[start][end]['cost']
+        return distance_saved[start][end]['route'], distance_saved[start][end]['explored'], distance_saved[start][end]['cost']
 
     route = []
     visited = []
@@ -125,6 +125,9 @@ def HILL_CLIMBING(matrix, start, end, bonus):
     for val in bonus:
         cities.append((val[0], val[1]))
     distance_saved = setupCostCities(cities, start, end, matrix)
+
+    if (len(cities) == 0):
+        return distance_saved[start][end]['route'], distance_saved[start][end]['explored'], distance_saved[start][end]['cost'] 
 
     currentSolution = randomSolution(cities)
     currentCost = getCostOfSolution(currentSolution, cities, start, end, distance_saved)

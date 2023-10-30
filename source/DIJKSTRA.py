@@ -85,5 +85,5 @@ def Dijkstra(matrix, start, end, bonus_points):
 
     route.append(start)
     route.reverse()
-    print("HOOOOO")
+    
     return route, visited, best_cost

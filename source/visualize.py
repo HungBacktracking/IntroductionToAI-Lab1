@@ -38,6 +38,7 @@ Y_OFFSET = 10
 delay = 100
 WALL_IMG1 = pygame.image.load('./assets/fence.png')
 START_IMG1 = pygame.image.load('./assets/star.png')
+FAIL_IMG1 = pygame.image.load('./assets/fail.png')
 EXIT_IMG1 = pygame.image.load('./assets/house.png')
 GIFT_IMG1 = pygame.image.load('./assets/tree.png')
 TIM1_IMG1 = pygame.image.load('./assets/paw.png')
@@ -211,13 +212,14 @@ def path_finding(dir,alg, algName):
                 pygame.quit()
                 sys.exit()
         draw_map()
+        # print(len(explored))
         if algorithm_running:
             if len(explored)>0:
                 current =explored.pop(0)
                 x=current[0]
                 y=current[1]
-                if (x,y)==end:
-                    explored.clear()
+                # if (x,y)==end:
+                #     explored.clear()
                 tmp = list(matrix[x])
                 tmp[y]='v'
                 if current in B :
@@ -231,8 +233,11 @@ def path_finding(dir,alg, algName):
                     node = route[i]
                     
                     if node == route[-1]:
-                        draw_cell_no_delay(node[0], node[1], EXIT_IMG, screen)
-                        break
+                        if node == end:
+                            draw_cell_no_delay(node[0], node[1], EXIT_IMG, screen)
+                        else: 
+                            draw_cell_no_delay(node[0], node[1], FAIL_IMG1, screen)
+                        continue
                     next_node = route[i+1]
                     if next_node[0]-node[0]>0:
                         DRAW_ASSET = TIM_D_IMG if node not in route_footed else RETIM_D_IMG

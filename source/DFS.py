@@ -3,7 +3,10 @@ def isPointValid(matrix, point):
         return True
     return False
 
-def DFS(maze, current, bonus_points, explored, trace, directions):
+def DFS(maze, current, end, bonus_points, explored, trace, directions):
+    if end in explored:
+        return
+    
     explored.append(current)  
     for step in directions:
         next = (current[0] + step[0], current[1] + step[1])
@@ -18,7 +21,7 @@ def DFS_main(maze, start, end, bonus_points):
     trace = dict()
     trace[start] = None 
     trace[end] = None
-    DFS(maze, start, bonus_points, explored, trace, dicrections)
+    DFS(maze, start, end, bonus_points, explored, trace, dicrections)
 
     if not trace[end]:
         return None, explored, -1

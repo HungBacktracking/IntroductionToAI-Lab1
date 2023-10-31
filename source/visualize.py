@@ -65,7 +65,7 @@ def matrix_initialize(matrix):
                 
             if matrix[row][col] == 'b':
                 plus.append((row,col))
-                pygame.draw.rect(screen, GOODBLUE, (col * TILE, row * TILE, TILE, TILE))
+                # pygame.draw.rect(screen, GOODBLUE, (col * TILE, row * TILE, TILE, TILE))
     for cell in bns:
         draw_cell_no_delay(cell[0], cell[1], OPEN_IMG, screen)      
     for cell in plus:

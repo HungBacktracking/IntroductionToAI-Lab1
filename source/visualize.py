@@ -14,6 +14,7 @@ from GENETIC import *
 from A_Star_lv2 import *
 from DP import *
 from DIJKSTRA import *
+from implement import *
 
 matrix = []
 BONUS=[]
@@ -37,6 +38,8 @@ TIM1_IMG = pygame.image.load('./assets/paw.png')
 TIM2_IMG = pygame.image.load('./assets/cat.png')
 CLOSE_IMG = pygame.image.load('./assets/close.png')
 OPEN_IMG = pygame.image.load('./assets/open.png')
+TELEPORT = pygame.image.load('./assets/tele.png')
+TELEPORT_OUT = pygame.image.load('./assets/teleout.png')
 
 def draw_cell_no_delay(x, y, IMG, WIN):
     drawX = X_OFFSET + y * TILE
@@ -44,7 +47,7 @@ def draw_cell_no_delay(x, y, IMG, WIN):
     WIN.blit(IMG, (drawX, drawY))
 
 def matrix_initialize(matrix):
-    cnt =0;
+    cnt =0
     plus=[]
     bns=[]
     for row in range(len(matrix)):
@@ -60,12 +63,19 @@ def matrix_initialize(matrix):
                 draw_cell_no_delay(row, col, START_IMG, screen)
             if (row, col) == end:
                 draw_cell_no_delay(row, col, EXIT_IMG, screen)
+            if  matrix[row][col] == 'o':
+                draw_cell_no_delay(row, col, TELEPORT, screen)
+            if matrix[row][col] == 'O':
+                draw_cell_no_delay(row, col, TELEPORT_OUT, screen)
             if matrix[row][col] == '+':
                 bns.append((row,col))
                 
             if matrix[row][col] == 'b':
                 plus.append((row,col))
                 # pygame.draw.rect(screen, GOODBLUE, (col * TILE, row * TILE, TILE, TILE))
+            # if matrix[row][col] == 'O' or matrix[row][col] == 'o':
+            #     plus.append((row,col))
+            #     pygame.draw.rect(screen, GOODBLUE, (col * TILE, row * TILE, TILE, TILE))
     for cell in bns:
         draw_cell_no_delay(cell[0], cell[1], OPEN_IMG, screen)      
     for cell in plus:
@@ -77,7 +87,7 @@ def draw_map():
 
 def path_finding(dir,alg):
     global matrix ,BONUS,explored,route,start,end,ALGNAME,screen,TILE
-    BONUS,matrix=IO.read_file(dir)
+    BONUS,matrix, is_teleport= read_file(dir)
     if len(matrix) >= 20 or len(matrix[0]) >= 20:
         TILE = 30
     else: 
@@ -85,8 +95,13 @@ def path_finding(dir,alg):
     WIDTH = TILE*len(matrix[0])  # screen width
     HEIGHT = TILE*len(matrix)  # screen height
     SCREEN_SIZE = [WIDTH, HEIGHT]
-    B= list(BONUS.keys())
+    # B= list(BONUS.keys())
+    B = [(point[0], point[1]) for point in BONUS]
+    B_OUT = []
+    if is_teleport:
+        B_OUT = [(point[2], point[3]) for point in BONUS]
     start, end = imp.getStartEndPoint(matrix)
+
     out = alg(matrix,start,end,BONUS)
     explored=out[1]
     route=out[0]
@@ -137,9 +152,17 @@ def path_finding(dir,alg):
                         draw_cell_no_delay(node[0], node[1], EXIT_IMG, screen)
                     else:
                         draw_cell_no_delay(node[0], node[1], TIM2_IMG, screen)
-                    if node in B:
-                        draw_cell_no_delay(node[0], node[1], CLOSE_IMG, screen)
-                    
+                    if not is_teleport:
+                        if node in B:
+                            draw_cell_no_delay(node[0], node[1], CLOSE_IMG, screen)
+                    else:
+                        if node in B:
+                            draw_cell_no_delay(node[0], node[1], TELEPORT, screen)
+                        if node in B_OUT:
+                            draw_cell_no_delay(node[0], node[1], TELEPORT_OUT, screen)
+
+
+
                         
                     pygame.time.wait(70)
                     pygame.display.update()
@@ -172,8 +195,10 @@ alg["dp"]=DP
 
 
 if __name__ == "__main__":
-    
-    path = "../input/level_{0}/input{1}.txt".format(sys.argv[1],sys.argv[2])
+    if 'advance' == sys.argv[1]:
+        path = "../input/advance/input{0}.txt".format(sys.argv[2])
+    else:    
+        path = "../input/level_{0}/input{1}.txt".format(sys.argv[1],sys.argv[2])
     algName=sys.argv[3]
     print("exploredualizing {} on input {}".format(algName,path))
     path_finding(path,alg[algName])

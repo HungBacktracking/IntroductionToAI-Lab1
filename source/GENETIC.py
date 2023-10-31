@@ -179,7 +179,7 @@ def GENETIC(matrix, start, end, bonus):
     for _ in range(POPULATION_SIZE): 
         gnome = Individual.create_gnome(randomGnome) 
         population.append(Individual(gnome, start, end, cities, distance_saved))
-    pre = 10 ** 9
+
     while generation < MAX_GENERATION:
         population = sorted(population, key = lambda x:x.fitness) 
         

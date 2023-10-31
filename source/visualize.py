@@ -192,16 +192,19 @@ def path_finding(dir,alg):
     # writer = imageio.get_writer(output_file, fps=FPS, macro_block_size=None)
     # for frame in frames:
     #     writer.append_data(frame)
-    
+    output_file = "output_video.mp4"
+    FPS = 30  # Frames per second (adjust as needed)
+    writer = imageio.get_writer(output_file, fps=FPS, macro_block_size=None)
     algorithm_running = True
     clock = pygame.time.Clock()
     while True:
         frame = pygame.surfarray.array3d(screen)
         frame = np.flip(frame, axis=1)
         frame = np.rot90(frame)
-        frames.append(frame)
+        writer.append_data(frame)
 
         pygame.display.update()
+        
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

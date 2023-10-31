@@ -86,6 +86,7 @@ def matrix_initialize(matrix,scale):
     RETIM_L_IMG=pygame.transform.scale(RETIM_L_IMG1, (scale, scale))
     RETIM_R_IMG=pygame.transform.scale(RETIM_R_IMG1, (scale, scale))
     RETIM_D_IMG=pygame.transform.scale(RETIM_D_IMG1, (scale, scale))
+    FAIL_IMG=pygame.transform.scale(FAIL_IMG1, (scale, scale))
 
 
     for row in range(len(matrix)):
@@ -123,7 +124,7 @@ def draw_map():
     matrix_initialize(matrix,scale)
 
 
-def path_finding(dir,alg, algName):
+def path_finding(dir,alg, algName, level, input):
     global matrix ,BONUS,explored,route,start,end,ALGNAME,screen,scale
     BONUS,matrix, is_teleport= read_file(dir)
     print("matrix size: ",len(matrix),len(matrix[0]))
@@ -150,6 +151,7 @@ def path_finding(dir,alg, algName):
     RETIM_L_IMG=pygame.transform.scale(RETIM_L_IMG1, (scale, scale))
     RETIM_R_IMG=pygame.transform.scale(RETIM_R_IMG1, (scale, scale))
     RETIM_D_IMG=pygame.transform.scale(RETIM_D_IMG1, (scale, scale))
+    FAIL_IMG=pygame.transform.scale(FAIL_IMG1, (scale, scale))
     WIDTH = scale*len(matrix[0])  # screen width
     HEIGHT = scale*len(matrix)  # screen height
     SCREEN_SIZE = [WIDTH, HEIGHT]
@@ -193,8 +195,8 @@ def path_finding(dir,alg, algName):
     # writer = imageio.get_writer(output_file, fps=FPS, macro_block_size=None)
     # for frame in frames:
     #     writer.append_data(frame)
-    output_file = "output_video/" + algName + ".mp4" 
-    FPS = 30  # Frames per second (adjust as needed)
+    output_file = "output_video/" + level + "/" + input + "/" + algName + ".mp4" 
+    FPS = 60  # Frames per second (adjust as needed)
     writer = imageio.get_writer(output_file, fps=FPS, macro_block_size=None)
     algorithm_running = True
     clock = pygame.time.Clock()
@@ -236,7 +238,7 @@ def path_finding(dir,alg, algName):
                         if node == end:
                             draw_cell_no_delay(node[0], node[1], EXIT_IMG, screen)
                         else: 
-                            draw_cell_no_delay(node[0], node[1], FAIL_IMG1, screen)
+                            draw_cell_no_delay(node[0], node[1], FAIL_IMG, screen)
                         continue
                     next_node = route[i+1]
                     if next_node[0]-node[0]>0:
@@ -274,7 +276,7 @@ def path_finding(dir,alg, algName):
                 dir=Path(dir).stem       
                 if not os.path.exists('./exploredualize_img'):
                     os.makedirs('./exploredualize_img')
-                pygame.image.save(screen, "./exploredualize_img/{}_{}.jpeg".format(ALGNAME,dir))
+                pygame.image.save(screen, "./output_image/{}/{}/{}.jpeg".format(level, input,ALGNAME))
                 algorithm_running = False
             pygame.time.wait(50)
             
@@ -301,10 +303,13 @@ alg["dp"]=DP
 if __name__ == "__main__":
     if 'advance' == sys.argv[1]:
         path = "../input/advance/input{0}.txt".format(sys.argv[2])
+        level = 'advance'
     else:    
         path = "../input/level_{0}/input{1}.txt".format(sys.argv[1],sys.argv[2])
+        level =  "level_" + sys.argv[1]
     algName=sys.argv[3]
+    input = "input_"+ sys.argv[2]
     print("exploredualizing {} on input {}".format(algName,path))
-    path_finding(path,alg[algName], algName)
+    path_finding(path,alg[algName], algName, level, input)
    
    

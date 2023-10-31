@@ -19,9 +19,12 @@ from DP import *
 from DIJKSTRA import *
 from implement import *
 
+
+
 matrix = []
 BONUS=[]
 explored=[]
+frames = []
 route=[]
 start=(0,0)
 end=(0,0)
@@ -30,13 +33,6 @@ scale = 100
 FPS = 60
 CELL_WIDTH = 30
 CELL_HEIGHT = 30
-SCREEN_WIDTH = 1280  # 16:9 aspect ratio
-SCREEN_HEIGHT = 720
-SCREEN_SIZE = [SCREEN_WIDTH, SCREEN_HEIGHT]
-map_width = scale * len(matrix[0]) if matrix else 0
-map_height = scale * len(matrix)
-map_x = (SCREEN_WIDTH - map_width) // 2
-map_y = (SCREEN_HEIGHT - map_height) // 2
 X_OFFSET = 10
 Y_OFFSET = 10
 delay = 100
@@ -51,9 +47,20 @@ OPEN_IMG1 = pygame.image.load('./assets/open.png')
 TELEPORT1 = pygame.image.load('./assets/tele.png')
 TELEPORT_OUT1 = pygame.image.load('./assets/teleout.png')
 
+TIM_U_IMG1 = pygame.image.load('./assets/cat.png')
+TIM_L_IMG1 = pygame.image.load('./assets/cat_l.png')
+TIM_R_IMG1 = pygame.image.load('./assets/cat_r.png')
+TIM_D_IMG1 = pygame.image.load('./assets/cat_d.png')
+
+RETIM_U_IMG1 = pygame.image.load('./assets/recat_u.png')
+RETIM_L_IMG1 = pygame.image.load('./assets/recat_l.png')
+RETIM_R_IMG1 = pygame.image.load('./assets/recat_r.png')
+RETIM_D_IMG1 = pygame.image.load('./assets/recat_d.png')
+
+
 def draw_cell_no_delay(x, y, IMG, WIN):
-    drawX = map_x + y * scale
-    drawY = map_y + x * scale
+    drawX = X_OFFSET + y * scale
+    drawY = Y_OFFSET + x * scale
     WIN.blit(IMG, (drawX, drawY))
 
 def matrix_initialize(matrix,scale):
@@ -70,6 +77,16 @@ def matrix_initialize(matrix,scale):
     OPEN_IMG = pygame.transform.scale(OPEN_IMG1, (scale, scale))
     TELEPORT = pygame.transform.scale(TELEPORT1, (scale, scale))
     TELEPORT_OUT = pygame.transform.scale(TELEPORT_OUT1, (scale, scale))
+    TIM_U_IMG=pygame.transform.scale(TIM_U_IMG1, (scale, scale))
+    TIM_L_IMG=pygame.transform.scale(TIM_L_IMG1, (scale, scale))
+    TIM_R_IMG=pygame.transform.scale(TIM_R_IMG1, (scale, scale))
+    TIM_D_IMG=pygame.transform.scale(TIM_D_IMG1, (scale, scale))
+    RETIM_U_IMG=pygame.transform.scale(RETIM_U_IMG1, (scale, scale))
+    RETIM_L_IMG=pygame.transform.scale(RETIM_L_IMG1, (scale, scale))
+    RETIM_R_IMG=pygame.transform.scale(RETIM_R_IMG1, (scale, scale))
+    RETIM_D_IMG=pygame.transform.scale(RETIM_D_IMG1, (scale, scale))
+
+
     for row in range(len(matrix)):
         for col in range(len(matrix[row])):
             if matrix[row][col] == 'x':
@@ -124,10 +141,26 @@ def path_finding(dir,alg):
     OPEN_IMG = pygame.transform.scale(OPEN_IMG1, (scale, scale))
     TELEPORT = pygame.transform.scale(TELEPORT1, (scale, scale))
     TELEPORT_OUT = pygame.transform.scale(TELEPORT_OUT1, (scale, scale))
+    TIM_U_IMG=pygame.transform.scale(TIM_U_IMG1, (scale, scale))
+    TIM_L_IMG=pygame.transform.scale(TIM_L_IMG1, (scale, scale))
+    TIM_R_IMG=pygame.transform.scale(TIM_R_IMG1, (scale, scale))
+    TIM_D_IMG=pygame.transform.scale(TIM_D_IMG1, (scale, scale))
+    RETIM_U_IMG=pygame.transform.scale(RETIM_U_IMG1, (scale, scale))
+    RETIM_L_IMG=pygame.transform.scale(RETIM_L_IMG1, (scale, scale))
+    RETIM_R_IMG=pygame.transform.scale(RETIM_R_IMG1, (scale, scale))
+    RETIM_D_IMG=pygame.transform.scale(RETIM_D_IMG1, (scale, scale))
     WIDTH = scale*len(matrix[0])  # screen width
     HEIGHT = scale*len(matrix)  # screen height
     SCREEN_SIZE = [WIDTH, HEIGHT]
     # B= list(BONUS.keys())
+    global CELL_WIDTH, CELL_HEIGHT
+    if WIDTH / len(matrix[0]) < HEIGHT / len(matrix):
+        CELL_WIDTH = CELL_HEIGHT = (WIDTH) / (len(matrix) + 2) 
+    else:
+        CELL_WIDTH = CELL_HEIGHT = (HEIGHT) / (len(matrix[0]) + 2)
+    global X_OFFSET, Y_OFFSET
+    X_OFFSET = (WIDTH - len(matrix[0]) * CELL_WIDTH) // 2
+    Y_OFFSET=(HEIGHT - len(matrix) * CELL_HEIGHT) // 2
     B = [(point[0], point[1]) for point in BONUS]
     B_OUT = []
     if is_teleport:
@@ -152,19 +185,21 @@ def path_finding(dir,alg):
     SCREEN_SIZE = [SCREEN_WIDTH, SCREEN_HEIGHT]
     screen = pygame.display.set_mode(SCREEN_SIZE)
     screen = pygame.display.set_mode(SCREEN_SIZE) #set screen size
-    pygame.display.set_caption("exploredUALIZATION {}".format(ALGNAME)) #set caption
+    pygame.display.set_caption("Video mô tả {}".format(ALGNAME)) #set caption
 
     screen.fill((255,255,255))
-    output_file = "output_video.mp4"
-    writer = imageio.get_writer(output_file, fps=FPS, macro_block_size=None)
-
+    # output_file = "output_video.mp4"
+    # writer = imageio.get_writer(output_file, fps=FPS, macro_block_size=None)
+    # for frame in frames:
+    #     writer.append_data(frame)
+    
     algorithm_running = True
     clock = pygame.time.Clock()
     while True:
         frame = pygame.surfarray.array3d(screen)
         frame = np.flip(frame, axis=1)
         frame = np.rot90(frame)
-        writer.append_data(frame)
+        frames.append(frame)
 
         pygame.display.update()
         clock.tick(FPS)
@@ -187,13 +222,29 @@ def path_finding(dir,alg):
                 matrix[x] = ''.join(tmp)
                 pygame.time.wait(2)
                 pygame.display.update()
-            else:              
-                for node in route:
+            else:    
+                route_footed = []          
+                for i in range(len(route)):
+                    node = route[i]
                     
                     if node == route[-1]:
                         draw_cell_no_delay(node[0], node[1], EXIT_IMG, screen)
+                        break
+                    next_node = route[i+1]
+                    if next_node[0]-node[0]>0:
+                        DRAW_ASSET = TIM_D_IMG if node not in route_footed else RETIM_D_IMG
+                        # direction.append('v') #^
+                    elif next_node[0]-node[0]<0:
+                        DRAW_ASSET = TIM_U_IMG if node not in route_footed else RETIM_U_IMG
+                        # direction.append('^') #v        
+                    elif next_node[1]-node[1]>0:
+                        DRAW_ASSET = TIM_R_IMG if node not in route_footed else RETIM_R_IMG
+                        # direction.append('>')
                     else:
-                        draw_cell_no_delay(node[0], node[1], TIM2_IMG, screen)
+                        DRAW_ASSET = TIM_L_IMG if node not in route_footed else RETIM_L_IMG
+                        # direction.append('<')
+                    draw_cell_no_delay(node[0], node[1], DRAW_ASSET, screen)
+                    
                     if not is_teleport:
                         if node in B:
                             draw_cell_no_delay(node[0], node[1], CLOSE_IMG, screen)
@@ -202,13 +253,11 @@ def path_finding(dir,alg):
                             draw_cell_no_delay(node[0], node[1], TELEPORT, screen)
                         if node in B_OUT:
                             draw_cell_no_delay(node[0], node[1], TELEPORT_OUT, screen)
-
-
-
-                    
-          
+                    route_footed.append(node)
+                        
                     pygame.time.wait(70)
                     pygame.display.update()
+                    clock.tick(FPS)
            
                 dir=Path(dir).stem       
                 if not os.path.exists('./exploredualize_img'):
@@ -219,7 +268,7 @@ def path_finding(dir,alg):
             
         else:
             pygame.time.wait(3000)
-            
+            writer.close()
             pygame.quit()
             sys.exit()
 

@@ -124,7 +124,7 @@ def AStar_Lv2(matrix, start, end, bonus_points):
         # if current.state in bonus_points_list:
         for point in bonus_points:
             if (point[0], point[1]) == current.state:
-                print("yes")
+                # print("yes")
                 current.f += point[2]
                 current.g += point[2]
                 if current.state in bonus_points_frontiers:

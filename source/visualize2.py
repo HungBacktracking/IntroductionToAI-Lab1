@@ -3,8 +3,8 @@ import sys,os
 from implement import read_file
 
 FPS = 60
-CELL_WIDTH = 30
-CELL_HEIGHT = 30
+CELL_WIDTH = 20
+CELL_HEIGHT = 20
 X_OFFSET = 10
 Y_OFFSET = 10
 delay = 100
@@ -39,25 +39,48 @@ maze_matrix = [
 # EXIT_IMG = pygame.image.load('./assets/tree.png')
 # GIFT_IMG = pygame.image.load('./assets/tree.png')
 
-WALL_IMG = pygame.image.load('./assets/fence.png')
-START_IMG = pygame.image.load('./assets/star.png')
-EXIT_IMG = pygame.image.load('./assets/house.png')
-GIFT_IMG = pygame.image.load('./assets/tree.png')
-TIM1_IMG = pygame.image.load('./assets/paw.png')
-TIM_U_IMG = pygame.image.load('./assets/cat.png')
-TIM_L_IMG = pygame.image.load('./assets/cat_l.png')
-TIM_R_IMG = pygame.image.load('./assets/cat_r.png')
-TIM_D_IMG = pygame.image.load('./assets/cat_d.png')
+WALL_IMG1 = pygame.image.load('./assets/fence.png')
+START_IMG1 = pygame.image.load('./assets/star.png')
+EXIT_IMG1 = pygame.image.load('./assets/house.png')
+GIFT_IMG1 = pygame.image.load('./assets/tree.png')
+TIM1_IMG1 = pygame.image.load('./assets/paw.png')
+TIM_U_IMG1 = pygame.image.load('./assets/cat.png')
+TIM_L_IMG1 = pygame.image.load('./assets/cat_l.png')
+TIM_R_IMG1 = pygame.image.load('./assets/cat_r.png')
+TIM_D_IMG1 = pygame.image.load('./assets/cat_d.png')
 
-RETIM_U_IMG = pygame.image.load('./assets/recat_u.png')
-RETIM_L_IMG = pygame.image.load('./assets/recat_l.png')
-RETIM_R_IMG = pygame.image.load('./assets/recat_r.png')
-RETIM_D_IMG = pygame.image.load('./assets/recat_d.png')
+RETIM_U_IMG1 = pygame.image.load('./assets/recat_u.png')
+RETIM_L_IMG1 = pygame.image.load('./assets/recat_l.png')
+RETIM_R_IMG1 = pygame.image.load('./assets/recat_r.png')
+RETIM_D_IMG1 = pygame.image.load('./assets/recat_d.png')
 
-CLOSE_IMG = pygame.image.load('./assets/close.png')
-OPEN_IMG = pygame.image.load('./assets/open.png')
-TELEPORT = pygame.image.load('./assets/tele.png')
-TELEPORT_OUT = pygame.image.load('./assets/teleout.png')
+CLOSE_IMG1 = pygame.image.load('./assets/close.png')
+OPEN_IMG1 = pygame.image.load('./assets/open.png')
+TELEPORT1 = pygame.image.load('./assets/tele.png')
+TELEPORT_OUT1 = pygame.image.load('./assets/teleout.png')
+OPEN_IMG1 = pygame.image.load('./assets/open.png')
+
+scale = 20
+WALL_IMG = pygame.transform.scale(WALL_IMG1, (scale, scale))
+START_IMG = pygame.transform.scale(START_IMG1, (scale, scale))
+EXIT_IMG = pygame.transform.scale(EXIT_IMG1, (scale, scale))
+GIFT_IMG = pygame.transform.scale(GIFT_IMG1, (scale, scale))
+TIM1_IMG = pygame.transform.scale(TIM1_IMG1, (scale, scale))
+TIM_U_IMG = pygame.transform.scale(TIM_U_IMG1, (scale, scale))
+TIM_L_IMG = pygame.transform.scale(TIM_L_IMG1, (scale, scale))
+TIM_R_IMG = pygame.transform.scale(TIM_R_IMG1, (scale, scale))
+TIM_D_IMG = pygame.transform.scale(TIM_D_IMG1, (scale, scale))
+RETIM_U_IMG = pygame.transform.scale(RETIM_U_IMG1, (scale, scale))
+RETIM_L_IMG = pygame.transform.scale(RETIM_L_IMG1, (scale, scale))
+RETIM_R_IMG = pygame.transform.scale(RETIM_R_IMG1, (scale, scale))
+RETIM_D_IMG = pygame.transform.scale(RETIM_D_IMG1, (scale, scale))
+CLOSE_IMG = pygame.transform.scale(CLOSE_IMG1, (scale, scale))
+OPEN_IMG = pygame.transform.scale(OPEN_IMG1, (scale, scale))
+TELEPORT = pygame.transform.scale(TELEPORT1, (scale, scale))
+TELEPORT_OUT = pygame.transform.scale(TELEPORT_OUT1, (scale, scale))
+OPEN_IMG = pygame.transform.scale(OPEN_IMG1, (scale, scale))
+
+
 
 
 def draw_maze(matrix, WIN):
@@ -74,7 +97,7 @@ def draw_maze(matrix, WIN):
             elif row == 0 or row == rows - 1 or col == 0 or col == cols - 1:    
                 draw_cell_no_delay(row, col, EXIT_IMG, WIN)
             elif cell == '+':
-                draw_cell_no_delay(row, col, GIFT_IMG, WIN)
+                draw_cell_no_delay(row, col, OPEN_IMG, WIN)
 
 
 def draw_cell_no_delay(x, y, IMG, WIN):

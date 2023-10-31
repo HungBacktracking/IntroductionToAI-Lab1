@@ -10,10 +10,11 @@ class Node():
         self.cost = cost
 
 def getNeighbors(current, matrix):
-    dicrections = [[ current[0] -1, current[1]],
-                    [ current[0] + 1, current[1]], 
+    dicrections = [ 
                     [ current[0], current[1] - 1], 
-                    [ current[0], current[1] + 1]]    
+                    [ current[0], current[1] + 1],
+                    [ current[0] -1, current[1]],
+                    [ current[0] + 1, current[1]],]  
     neighbors = []
     for r,c in dicrections:
          if 0 <= r < len(matrix)  and 0 <= c  < len(matrix[0]) and matrix[r][c] != 'x':

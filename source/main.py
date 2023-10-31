@@ -43,34 +43,60 @@ def main(argv):
         start_time = time.time()
         route,explored,cost = BFS(matrix,start,end,bonus_points)
         end_time = time.time()
-        #tính thời gian chạy của thuật toán Python
         elapsed_time = end_time - start_time
         print ("BFS time:{0}".format(elapsed_time) + "[sec]")
-
+        print("Visited: ", len(explored) -1)
+        print("Cost:", cost)
         write_cost_path(cost, './output/' + out_file + '/bfs/BFS.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored,False)
 
+
         out_put = './output/' + out_file + '/dfs/DFS.jpg'
         name = 'DFS'
+        start_time = time.time()
         route,explored,cost = DFS_main(matrix,start,end,bonus_points)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        print ("DFS time:{0}".format(elapsed_time) + "[sec]")
+        print("Visited: ", len(explored) -1)
+        print("Cost:", cost)
         write_cost_path(cost, './output/' + out_file + '/dfs/DFS.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored,False)
+        
 
         out_put = './output/' + out_file + '/ucs/UCS.jpg'
         name = 'UCS'
+        start_time = time.time()
         route,explored,cost = UCS(matrix,start,end,bonus_points)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        print ("UCS time:{0}".format(elapsed_time) + "[sec]")
+        print("Visited: ", len(explored) -1)
+        print("Cost:", cost)
         write_cost_path(cost, './output/' + out_file + '/ucs/UCS.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored,False)
 
         out_put = './output/' + out_file + '/gbfs/GBFS.jpg'
         name = 'GBFS'
+        start_time = time.time()
         route,explored,cost = GBFS(matrix,start,end,bonus_points)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        print ("GBFS time:{0}".format(elapsed_time) + "[sec]")
+        print("Visited: ", len(explored) -1)
+        print("Cost:", cost)
         write_cost_path(cost, './output/' + out_file + '/gbfs/GBFS.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored,False)
 
         out_put = './output/' + out_file + '/astar/astar.jpg'
         name = 'AStar'
+        start_time = time.time()
         route,explored,cost = AStar(matrix,start,end,bonus_points)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        print ("AStart time:{0}".format(elapsed_time) + "[sec]")
+        print("Visited: ", len(explored) -1)
+        print("Cost:", cost)
         write_cost_path(cost, './output/' + out_file + '/astar/astar.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored,False)
 

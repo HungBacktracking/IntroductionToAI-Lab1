@@ -11,6 +11,7 @@ from GENETIC import *
 from A_Star_lv2 import *
 from DP import *
 from DIJKSTRA import *
+import time
 
 def main(argv):
     in_file, out_file = './input/', ''
@@ -39,7 +40,13 @@ def main(argv):
     if 'level_1' in in_file:
         out_put = './output/' + out_file + '/bfs/BFS.jpg'
         name = 'BFS'
+        start_time = time.time()
         route,explored,cost = BFS(matrix,start,end,bonus_points)
+        end_time = time.time()
+        #tính thời gian chạy của thuật toán Python
+        elapsed_time = end_time - start_time
+        print ("BFS time:{0}".format(elapsed_time) + "[sec]")
+
         write_cost_path(cost, './output/' + out_file + '/bfs/BFS.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored,False)
 

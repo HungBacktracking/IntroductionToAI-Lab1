@@ -122,7 +122,7 @@ def draw_map():
     matrix_initialize(matrix,scale)
 
 
-def path_finding(dir,alg):
+def path_finding(dir,alg, algName):
     global matrix ,BONUS,explored,route,start,end,ALGNAME,screen,scale
     BONUS,matrix, is_teleport= read_file(dir)
     print("matrix size: ",len(matrix),len(matrix[0]))
@@ -192,7 +192,7 @@ def path_finding(dir,alg):
     # writer = imageio.get_writer(output_file, fps=FPS, macro_block_size=None)
     # for frame in frames:
     #     writer.append_data(frame)
-    output_file = "output_video.mp4"
+    output_file = "output_video/" + algName + ".mp4" 
     FPS = 30  # Frames per second (adjust as needed)
     writer = imageio.get_writer(output_file, fps=FPS, macro_block_size=None)
     algorithm_running = True
@@ -257,7 +257,11 @@ def path_finding(dir,alg):
                         if node in B_OUT:
                             draw_cell_no_delay(node[0], node[1], TELEPORT_OUT, screen)
                     route_footed.append(node)
-                        
+
+                    frame = pygame.surfarray.array3d(screen)
+                    frame = np.flip(frame, axis=1)
+                    frame = np.rot90(frame)
+                    writer.append_data(frame)    
                     pygame.time.wait(70)
                     pygame.display.update()
                     clock.tick(FPS)
@@ -296,6 +300,6 @@ if __name__ == "__main__":
         path = "../input/level_{0}/input{1}.txt".format(sys.argv[1],sys.argv[2])
     algName=sys.argv[3]
     print("exploredualizing {} on input {}".format(algName,path))
-    path_finding(path,alg[algName])
+    path_finding(path,alg[algName], algName)
    
    

@@ -1,4 +1,6 @@
 import pygame
+import sys,os
+from implement import read_file
 
 FPS = 60
 CELL_WIDTH = 30
@@ -32,10 +34,30 @@ maze_matrix = [
     ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x', ' '],
 ]
 
-WALL_IMG = pygame.image.load('./assets/tree.png')
-START_IMG = pygame.image.load('./assets/tree.png')
-EXIT_IMG = pygame.image.load('./assets/tree.png')
+# WALL_IMG = pygame.image.load('./assets/tree.png')
+# START_IMG = pygame.image.load('./assets/tree.png')
+# EXIT_IMG = pygame.image.load('./assets/tree.png')
+# GIFT_IMG = pygame.image.load('./assets/tree.png')
+
+WALL_IMG = pygame.image.load('./assets/fence.png')
+START_IMG = pygame.image.load('./assets/star.png')
+EXIT_IMG = pygame.image.load('./assets/house.png')
 GIFT_IMG = pygame.image.load('./assets/tree.png')
+TIM1_IMG = pygame.image.load('./assets/paw.png')
+TIM_U_IMG = pygame.image.load('./assets/cat.png')
+TIM_L_IMG = pygame.image.load('./assets/cat_l.png')
+TIM_R_IMG = pygame.image.load('./assets/cat_r.png')
+TIM_D_IMG = pygame.image.load('./assets/cat_d.png')
+
+RETIM_U_IMG = pygame.image.load('./assets/recat_u.png')
+RETIM_L_IMG = pygame.image.load('./assets/recat_l.png')
+RETIM_R_IMG = pygame.image.load('./assets/recat_r.png')
+RETIM_D_IMG = pygame.image.load('./assets/recat_d.png')
+
+CLOSE_IMG = pygame.image.load('./assets/close.png')
+OPEN_IMG = pygame.image.load('./assets/open.png')
+TELEPORT = pygame.image.load('./assets/tele.png')
+TELEPORT_OUT = pygame.image.load('./assets/teleout.png')
 
 
 def draw_maze(matrix, WIN):
@@ -68,7 +90,7 @@ def draw_cell(x, y, IMG, WIN):
     pygame.time.delay(delay)
 
 
-def main():
+def main(matrix):
     pygame.init()
 
     display_info = pygame.display.Info()
@@ -78,15 +100,15 @@ def main():
     WIN.fill(WHITE)
 
     # Tính toán kích thước mê cung dựa trên số hàng và số cột
-    maze_height = len(maze_matrix) * CELL_HEIGHT
-    maze_width = len(maze_matrix[0]) * CELL_WIDTH
+    maze_height = len(matrix) * CELL_HEIGHT
+    maze_width = len(matrix[0]) * CELL_WIDTH
 
     # Tính toán vị trí bắt đầu để vẽ mê cung giữa cửa sổ pygame
     global X_OFFSET, Y_OFFSET
     X_OFFSET = (screen_width - maze_width) // 2
     Y_OFFSET = (screen_height - maze_height) // 2
 
-    draw_maze(maze_matrix, WIN)
+    draw_maze(matrix, WIN)
     pygame.display.update()
     clock = pygame.time.Clock()
     run = True
@@ -100,4 +122,9 @@ def main():
     pygame.quit()
 
 if __name__ == "__main__":
-    main()
+    if 'advance' == sys.argv[1]:
+        path = "../input/advance/input{0}.txt".format(sys.argv[2])
+    else:    
+        path = "../input/level_{0}/input{1}.txt".format(sys.argv[1],sys.argv[2])
+    BONUS,matrix, is_teleport= read_file(path)
+    main(matrix)

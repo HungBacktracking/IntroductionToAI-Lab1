@@ -103,19 +103,38 @@ def main(argv):
     if 'level_2' in in_file:
         out_put = './output/' + out_file + '/dp/dp.jpg'
         name = 'DP'
+        start_time = time.time()
         route,explored,cost = DP(matrix,start,end,bonus_points)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        print ("DP Lv2 time:{0}".format(elapsed_time) + "[sec]")
+        print("Visited: ", len(explored) -1)
+        print("Cost:", cost)
         write_cost_path(cost, './output/' + out_file + '/dp/dp.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored,False)
 
         out_put = './output/' + out_file + '/dijkstra/dijkstra.jpg'
         name = 'Dijkstra'
+        start_time = time.time()
         route,explored,cost = Dijkstra(matrix,start,end,bonus_points)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        print ("Dijkstra Lv2 time:{0}".format(elapsed_time) + "[sec]")
+        print("Visited: ", len(explored) -1)
+        print("Cost:", cost)
         write_cost_path(cost, './output/' + out_file + '/dijkstra/dijkstra.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored,False)
 
+
         out_put = './output/' + out_file + '/astar_lv2/astar_lv2.jpg'
         name = 'AStar_LV2'
+        start_time = time.time()
         route,explored,cost = AStar_Lv2(matrix,start,end,bonus_points)
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        print ("AStart Lv2 time:{0}".format(elapsed_time) + "[sec]")
+        print("Visited: ", len(explored) -1)
+        print("Cost:", cost)
         write_cost_path(cost, './output/' + out_file + '/astar_lv2/astar_lv2.txt')
         visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored,False)
 

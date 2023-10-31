@@ -117,8 +117,8 @@ def matrix_initialize(matrix,scale):
             #     pygame.draw.rect(screen, GOODBLUE, (col * scale, row * scale, scale, scale))
     for cell in bns:
         draw_cell_no_delay(cell[0], cell[1], OPEN_IMG, screen)      
-    for cell in plus:
-        draw_cell_no_delay(cell[0], cell[1], CLOSE_IMG, screen)
+    # for cell in plus:
+    #     draw_cell_no_delay(cell[0], cell[1], CLOSE_IMG, screen)
 
 def draw_map():
     matrix_initialize(matrix,scale)
@@ -276,7 +276,7 @@ def path_finding(dir,alg, algName, level, input):
                 dir=Path(dir).stem       
                 if not os.path.exists('./exploredualize_img'):
                     os.makedirs('./exploredualize_img')
-                pygame.image.save(screen, "./output_image/{}/{}/{}.jpeg".format(level, input,ALGNAME))
+                pygame.image.save(screen, "../output/{}/{}/{}.jpg".format(level, input,ALGNAME))
                 algorithm_running = False
             pygame.time.wait(50)
             

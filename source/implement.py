@@ -72,7 +72,8 @@ def visualize_maze(matrix, bonus, start, end, out_put, name, route=None, explore
     print(f'Ending point (x, y) = {end[0], end[1]}')
     
     for _, point in enumerate(bonus):
-        print(f'Bonus point at position (x, y) = {point[0], point[1]} with point {point[2]}')
+        if (point[0], point[1]) in route:
+            print(f'Get Bonus point at position (x, y) = {point[0], point[1]} with point {point[2]}')
 
 def teleport_read_file(file_name: str):
     teleports, matrix = [], []

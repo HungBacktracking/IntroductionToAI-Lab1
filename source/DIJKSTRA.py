@@ -51,7 +51,7 @@ def Dijkstra(matrix, start, end, bonus_points):
                 continue
 
             next_weight, id_bonus = get_weight(point, bonus_points)
-            if next_weight < 0:
+            if next_weight <= 0:
                 if (cur_bitmask & (1 << id_bonus)) != 0: # Đã đi qua điểm thưởng này rồi, không đi nữa
                     continue
                 new_bitmask = (cur_bitmask | (1 << id_bonus))

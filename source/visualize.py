@@ -16,6 +16,8 @@ from DP import *
 from DIJKSTRA import *
 from implement import *
 
+
+
 matrix = []
 BONUS=[]
 explored=[]
@@ -35,7 +37,16 @@ START_IMG = pygame.image.load('./assets/star.png')
 EXIT_IMG = pygame.image.load('./assets/house.png')
 GIFT_IMG = pygame.image.load('./assets/tree.png')
 TIM1_IMG = pygame.image.load('./assets/paw.png')
-TIM2_IMG = pygame.image.load('./assets/cat.png')
+TIM_U_IMG = pygame.image.load('./assets/cat.png')
+TIM_L_IMG = pygame.image.load('./assets/cat_l.png')
+TIM_R_IMG = pygame.image.load('./assets/cat_r.png')
+TIM_D_IMG = pygame.image.load('./assets/cat_d.png')
+
+RETIM_U_IMG = pygame.image.load('./assets/recat_u.png')
+RETIM_L_IMG = pygame.image.load('./assets/recat_l.png')
+RETIM_R_IMG = pygame.image.load('./assets/recat_r.png')
+RETIM_D_IMG = pygame.image.load('./assets/recat_d.png')
+
 CLOSE_IMG = pygame.image.load('./assets/close.png')
 OPEN_IMG = pygame.image.load('./assets/open.png')
 TELEPORT = pygame.image.load('./assets/tele.png')
@@ -142,13 +153,29 @@ def path_finding(dir,alg):
                 matrix[x] = ''.join(tmp)
                 pygame.time.wait(2)
                 pygame.display.update()
-            else:              
-                for node in route:
+            else:    
+                route_footed = []          
+                for i in range(len(route)):
+                    node = route[i]
                     
                     if node == route[-1]:
                         draw_cell_no_delay(node[0], node[1], EXIT_IMG, screen)
+                        break
+                    next_node = route[i+1]
+                    if next_node[0]-node[0]>0:
+                        DRAW_ASSET = TIM_D_IMG if node not in route_footed else RETIM_D_IMG
+                        # direction.append('v') #^
+                    elif next_node[0]-node[0]<0:
+                        DRAW_ASSET = TIM_U_IMG if node not in route_footed else RETIM_U_IMG
+                        # direction.append('^') #v        
+                    elif next_node[1]-node[1]>0:
+                        DRAW_ASSET = TIM_R_IMG if node not in route_footed else RETIM_R_IMG
+                        # direction.append('>')
                     else:
-                        draw_cell_no_delay(node[0], node[1], TIM2_IMG, screen)
+                        DRAW_ASSET = TIM_L_IMG if node not in route_footed else RETIM_L_IMG
+                        # direction.append('<')
+                    draw_cell_no_delay(node[0], node[1], DRAW_ASSET, screen)
+                    
                     if not is_teleport:
                         if node in B:
                             draw_cell_no_delay(node[0], node[1], CLOSE_IMG, screen)
@@ -158,8 +185,7 @@ def path_finding(dir,alg):
                         if node in B_OUT:
                             draw_cell_no_delay(node[0], node[1], TELEPORT_OUT, screen)
 
-
-
+                    route_footed.append(node)
                         
                     pygame.time.wait(70)
                     pygame.display.update()

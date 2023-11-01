@@ -95,7 +95,7 @@ def getNeighbors(current, matrix):
             neighbors.append((r,c))
     return neighbors
 
-def DFS_main(matrix, start, end, bonus_points):
+def DFS(matrix, start, end, bonus_points):
     frontier = StackFrontier()
     startNode = Node(state=start, cost=0, parent=None)
     frontier.add(startNode)
@@ -129,4 +129,4 @@ def DFS_main(matrix, start, end, bonus_points):
                 currentNode = Node(state=neighBor, parent=current, cost=current.cost+1)
                 frontier.add(currentNode)
 
-    return None, None, -1
+    return None, visited, -1

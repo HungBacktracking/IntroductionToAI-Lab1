@@ -1,7 +1,5 @@
 from queue import PriorityQueue
 
-from implement import *
-
     
 def getNeighbors(current, matrix):
     dicrections = [[ current[0] -1, current[1]],
@@ -58,31 +56,3 @@ def UCS(matrix, start, end, bonus_points):
                 trace[neighBor] = current[1]
 
     return None, visited, -1
-
-
-if __name__ == '__main__':
-    def main(argv):
-        in_file = './input/level_1/input5.txt'
-        out_file = './output/level_1/input5'
-
-
-        bonus_points, matrix = read_file(in_file)
-        start, end = getStartEndPoint(matrix)
-        
-        # out_put = './output/' + out_file + '/bfs/BFS.jpg'
-        # name = 'BFS'
-        # route,explored,cost = BFS(matrix,start,end,bonus_points)
-        # write_cost_path(cost, './output/' + out_file + '/bfs/BFS.txt')
-        # visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
-
-        # out_put = './output/' + out_file + '/dfs/DFS.jpg'
-        # name = 'DFS'
-        # route,explored,cost = DFS(matrix,start,end,bonus_points)
-        # write_cost_path(cost, './output/' + out_file + '/dfs/DFS.txt')
-        # visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)
-
-        out_put = './output/' + out_file + '/ucs/UCS.jpg'
-        name = 'UCS'
-        route,explored,cost = UCS(matrix,start,end,bonus_points)
-        write_cost_path(cost, './output/' + out_file + '/ucs/UCS.txt')
-        visualize_maze(matrix,bonus_points,start,end,out_put,name,route,explored)

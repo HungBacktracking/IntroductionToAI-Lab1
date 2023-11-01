@@ -3,9 +3,7 @@ import imageio
 import numpy as np
 from pygame.locals import QUIT
 import sys, os
-import implement as imp
 from pathlib import Path
-from implement import *
 from BFS import *
 from DFS import *
 from UCS import *
@@ -98,6 +96,60 @@ def scale_image(scale):
     RETIM_D_IMG = pygame.transform.scale(RETIM_D_IMG, (scale, scale))
     FAIL_IMG = pygame.transform.scale(FAIL_IMG, (scale, scale))
 
+def write_cost_path(cost, output_file):
+    with open(output_file, 'w') as f:
+        f.write(str(cost))
+
+def teleport_read_file(file_name: str):
+    teleports, matrix = [], []
+    with open(file_name) as f:
+        f=open(file_name,'r')
+        n_teleports = int(next(f)[:-1])
+        teleports = []
+        for i in range(n_teleports):
+            x, y, newX, newY = map(int, next(f)[:-1].split(' '))
+            teleports.append((x, y, newX, newY))
+
+        text=f.read()
+        matrix=[list(i) for i in text.splitlines()]
+        f.close()
+
+    return teleports, matrix, True
+
+def read_file(file_name: str):
+    if "advance" in file_name:
+        return teleport_read_file(file_name)
+
+    bonus_points, matrix = [], []
+    with open(file_name) as f:
+        f=open(file_name,'r')
+        n_bonus_points = int(next(f)[:-1])
+        bonus_points = []
+        for i in range(n_bonus_points):
+            x, y, reward = map(int, next(f)[:-1].split(' '))
+            bonus_points.append((x, y, reward))
+
+        text=f.read()
+        matrix=[list(i) for i in text.splitlines()]
+        f.close()
+
+    return bonus_points, matrix, False
+
+def getStartEndPoint(matrix):
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            if matrix[i][j]=='S':
+                start=(i,j)
+
+            elif matrix[i][j]==' ':
+                if (i==0) or (i==len(matrix)-1) or (j==0) or (j==len(matrix[0])-1):
+                    end=(i,j)
+                    
+            else:
+                pass
+    
+    return start, end
+
 def draw_cell_no_delay(x, y, IMG, WIN):
     drawX = X_OFFSET + y * CELL_WIDTH
     drawY = Y_OFFSET + x * CELL_HEIGHT
@@ -152,7 +204,7 @@ def path_finding(dir, alg, algName, level, input):
     B_OUT = []
     if is_teleport:
         B_OUT = [(point[2], point[3]) for point in BONUS]
-    start, end = imp.getStartEndPoint(matrix)
+    start, end = getStartEndPoint(matrix)
 
     out = alg(matrix,start,end,BONUS)
     route = out[0]
